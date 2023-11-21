@@ -12,9 +12,6 @@ echo "%MSG-renesance number of events requested = $nevt"
 rnum=${2}
 echo "%MSG-renesance random seed used for the run = $rnum"
 
-ncpu=${3}
-echo "%MSG-renesance number of cputs for the run = $ncpu"
-
 LHEWORKDIR=`pwd`
 
 use_gridpack_env=true
@@ -73,13 +70,9 @@ if [[ ! -e ${card} ]]; then
  fail_exit "input card not found!"
 fi
 
-cat ${card} | sed -e "s#.*seed.*#${seed} ! seed#g" | sed -e "s#.*number.*#${nevt} ! number of events#g" > run.input
-if [ -e sub.dat ]; then
-  sed -i -e "s#.*calculate.*#read#g" run.input
-fi
-
-cat run.input
-./horace < run.input 2>&1 | tee log_horace_${seed}.txt; test $? -eq 0 || fail_exit "horace error: exit code not 0"
+# run ReneSANCe                                                                                                
+./renesance_pp -s ${seed}  -D NevTot:${nevt}  -f input 2>&1 | tee log_renesance_${seed}.txt; test $? -eq 0 || fail_exit "renesance\
+ error: exit code not 0"
 
 cp run/*.evts ${file}_final.lhe
 
