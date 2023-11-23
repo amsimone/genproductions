@@ -6,10 +6,10 @@ echo "   ______________________________________     "
 echo "         Running ReneSANCe                       "
 echo "   ______________________________________     "
 
-nevt=${1}
+nevt=${1:-10000}
 echo "%MSG-renesance number of events requested = $nevt"
 
-rnum=${2}
+rnum=${2:-12345}
 echo "%MSG-renesance random seed used for the run = $rnum"
 
 LHEWORKDIR=`pwd`
@@ -47,7 +47,6 @@ fi
 
 cd $LHEWORKDIR
 
-seed=$rnum
 file="cmsgrid"
 
 # Release to be used to define the environment and the compiler needed                                                              
@@ -71,7 +70,7 @@ if [[ ! -e ${card} ]]; then
 fi
 
 # run ReneSANCe                                                                                                
-./renesance_pp -s ${seed}  -D NevTot:${nevt}  -f input 2>&1 | tee log_renesance_${seed}.txt; test $? -eq 0 || fail_exit "renesance\
+./renesance_pp -s ${rnum}  -D NevTot:${nevt}  -f input 2>&1 | tee log_renesance_${rnum}.txt; test $? -eq 0 || fail_exit "renesance\
  error: exit code not 0"
 
 cp run/*.evts ${file}_final.lhe
