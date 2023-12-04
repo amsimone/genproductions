@@ -70,7 +70,7 @@ if [[ ! -e ${card} ]]; then
 fi
 
 # run ReneSANCe                                                                                                
-./renesance_pp -s ${rnum}  -D NevTot:${nevt}  -f input 2>&1 | tee log_renesance_${rnum}.txt; test $? -eq 0 || fail_exit "renesance\
+./renesance_pp -s ${rnum}  -D NevTot:${nevt},NevBorn:${nevt}  -f input 2>&1 | tee log_renesance_${rnum}.txt; test $? -eq 0 || fail_exit "renesance\
  error: exit code not 0"
 
 cp run/*.evts ${file}_final.lhe
