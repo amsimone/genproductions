@@ -6,6 +6,7 @@ Script for ReneSANCe generator production
 
 import sys
 import os
+import re
 import shutil
 from glob import glob
 from optparse import OptionParser
@@ -85,10 +86,29 @@ def pack(args):
     if os.path.exists(packdir):
 	    shutil.rmtree(packdir)
     os.mkdir(packdir)
-    import glob
+
+    ### copy all files to gridpack folder                                                                                           
     shutil.copytree(cwd+args.dir+'/ReneSANCe-'+args.version+'/input',   packdir+'/input')
-    for grid in glob.glob(cwd+args.dir+'/ReneSANCe-'+args.version+'/Foam*.root'):
-        shutil.copy(grid, packdir+grid.split('/')[-1])
+    for grid in glob(cwd+args.dir+'/ReneSANCe-'+args.version+'/Foam*.root'):
+	shutil.copy(grid, packdir+grid.split('/')[-1])
+    shutil.copy(cwd+args.dir+'/ReneSANCe-'+args.version+'/bin/renesance_pp',   packdir+'/renesance_pp')
+
+    ### set to false grid creation in proc card                                                                                     
+    with open(packdir+'/input/proc.conf', 'r') as file:
+	proc_card = file.read()
+
+    proc_card = re.sub(r"(explore\w*)\s*:\s*true",
+		       r"\1: false",
+		       proc_card,
+		       flags=re.MULTILINE)
+
+    # enable generation of LHE                                                                                                      
+    proc_card = re.sub(r"(printLHE)\s*:\s*false",
+		       r"\1: true",
+		       proc_card)
+    with open(packdir+'/input/proc.conf', 'w') as file:
+	file.write(proc_card)
+
 
     scram_arch = os.getenv('SCRAM_ARCH')
     cmssw_version = os.getenv('CMSSW_VERSION')
