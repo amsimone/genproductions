@@ -71,7 +71,9 @@ def run(args):
     print('c=',cwd)
     print('i=',args.cfg)
     print('d=',cwd+args.dir+'/input')
-    #shutil.copy(cwd+args.cfg, cwd+args.dir+'/input')                                                                               
+    #shutil.copy(cwd+args.cfg, cwd+args.dir+'/input')
+	
+    shutil.copytree(cwd+args.dir+'/ReneSANCe-'+args.version+'/share',   packdir+'/share')
     shutil.copytree(cwd+args.cfg, cwd+args.dir+'/ReneSANCe-'+args.version+'/input')
     os.chdir(args.dir+'/ReneSANCe-'+args.version)
     os.system('./bin/renesance_pp -f input')
