@@ -28,7 +28,7 @@ if [ "$use_gridpack_env" = true ]
       else
         scram_arch_version=SCRAM_ARCH_VERSION_REPLACE
     fi
-    echo "%MSG-MG5 SCRAM_ARCH version = $scram_arch_version"
+    echo "%MSG-renesance SCRAM_ARCH version = $scram_arch_version"
 
     if [ -n "$6" ]
       then
@@ -36,7 +36,7 @@ if [ "$use_gridpack_env" = true ]
       else
         cmssw_version=CMSSW_VERSION_REPLACE
     fi
-    echo "%MSG-MG5 CMSSW version = $cmssw_version"
+    echo "%MSG-renesance CMSSW version = $cmssw_version"
     export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
     source $VO_CMS_SW_DIR/cmsset_default.sh
     export SCRAM_ARCH=${scram_arch_version}
@@ -62,9 +62,11 @@ fi
 #make sure env variable for pdfsets points to the right place                                                                       
 export LHAPDF_DATA_PATH=`$LHAPDFCONFIG --datadir`
 
-# initialize the CMS environment                                                                                                    
-card=${WORKDIR}/input
+# initialize the CMS environment
+export RENESANCE_ROOT=${WORKDIR}
+echo "%MSG-renesance Renesance schema files = $RENESANCE_ROOT"
 
+card=${WORKDIR}/input
 if [[ ! -e ${card} ]]; then
  fail_exit "input card not found!"
 fi
