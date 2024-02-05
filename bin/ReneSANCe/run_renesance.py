@@ -16,7 +16,7 @@ def main():
     parser.add_option('-c', '--commands', dest="commands", default= 'checkout,compile,run,pack', help='commands/stages to run')
     parser.add_option('-f', '--folderName', dest="dir", default='inputdir', help='local folder name [input]')
     parser.add_option('-i', '--input', dest="cfg", default= 'inputcfg', help='input cfg folder [input]')
-    parser.add_option('-v', '--version', dest="version", default= '1.3.7', help='version number [version]')
+    parser.add_option('-v', '--version', dest="version", default= '1.3.8', help='version number [version]')
 
     (args, opts) = parser.parse_args(sys.argv)
     print(args)
